@@ -1,18 +1,24 @@
 <?php
+// index.php
+// Pastikan tidak ada spasi kosong di atas baris ini!
 include 'koneksi.php';
 
+// Mengambil jumlah data untuk statistik
 $totalPeriode = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM periode"))['total'];
 $totalKriteria = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM kriteria"))['total'];
 $totalAlternatif = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM alternatif"))['total'];
 
+// Ambil periode untuk dropdown filter grafik
 $queryPeriode = mysqli_query($conn, "SELECT * FROM periode ORDER BY id_periode DESC");
 $periodeAktif = isset($_GET['id_periode']) ? $_GET['id_periode'] : '';
 
+// Jika tidak ada parameter, set periode terbaru sebagai default
 if (empty($periodeAktif) && mysqli_num_rows($queryPeriode) > 0) {
     $firstPeriode = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id_periode FROM periode ORDER BY id_periode DESC LIMIT 1"));
     $periodeAktif = $firstPeriode['id_periode'];
 }
 
+// LOGIKA SAW (HANYA UNTUK GRAFIK DASHBOARD)
 $labels_chart = [];
 $scores_chart = [];
 
@@ -96,9 +102,10 @@ if (!empty($periodeAktif)) {
     <title>Dashboard SPK SAW - Kelompok 2</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Nunito', sans-serif; background-color: #fdfaf6; margin: 0; display: flex; color: #3e2723; }
+        /* Desain Utama (Desktop) */
+        body { font-family: 'Nunito', sans-serif; background-color: #fdfaf6; margin: 0; display: flex; color: #3e2723; flex-wrap: wrap; }
         .sidebar { width: 250px; background-color: #4e342e; height: 100vh; padding-top: 20px; position: fixed; }
         .sidebar-brand { text-align: center; font-size: 20px; font-weight: bold; color: #d7ccc8; margin-bottom: 30px; }
         .sidebar-brand i { color: #ffb300; margin-right: 8px;}
@@ -106,7 +113,7 @@ if (!empty($periodeAktif)) {
         .nav-item:hover, .nav-item.active { color: #fff; background-color: #5d4037; border-left: 4px solid #ffb300; }
         .nav-item i { width: 25px; }
 
-        .main-content { margin-left: 250px; padding: 30px; width: 100%; box-sizing: border-box; }
+        .main-content { margin-left: 250px; padding: 30px; width: calc(100% - 250px); box-sizing: border-box; }
         .header { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); margin-bottom: 25px; }
         .header h2 { margin: 0; color: #4e342e; }
 
@@ -119,9 +126,9 @@ if (!empty($periodeAktif)) {
         .stat-value { font-size: 28px; font-weight: bold; color: #3e2723; margin: 0; }
         .stat-icon { font-size: 35px; color: #efebe9; }
         
-        .row-dashboard { display: flex; gap: 20px; }
-        .col-chart { flex: 2; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
-        .col-team { flex: 1; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); border-top: 4px solid #ffb300;}
+        .row-dashboard { display: flex; gap: 20px; flex-wrap: wrap; }
+        .col-chart { flex: 2; min-width: 300px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .col-team { flex: 1; min-width: 250px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); border-top: 4px solid #ffb300;}
         
         .box-title { margin-top: 0; color: #4e342e; border-bottom: 2px solid #efebe9; padding-bottom: 10px; font-size: 16px;}
         
@@ -131,7 +138,56 @@ if (!empty($periodeAktif)) {
         .team-list li i { color: #8d6e63; font-size: 20px; margin-right: 15px; }
         .nim-badge { display: block; font-size: 12px; color: #858796; font-weight: normal; margin-top: 3px;}
         
-        .filter-select { padding: 8px; border: 1px solid #d7ccc8; border-radius: 4px; font-family: inherit; margin-bottom: 15px; width: 100%;}
+        .filter-select { padding: 8px; border: 1px solid #d7ccc8; border-radius: 4px; font-family: inherit; margin-bottom: 15px; width: 100%; box-sizing: border-box;}
+
+        /* --- DESAIN RESPONSIVE (HP & TABLET) --- */
+        @media (max-width: 768px) {
+            body { display: block; }
+            
+            .sidebar { 
+                width: 100%; 
+                height: auto; 
+                position: relative; 
+                padding: 15px 0; 
+            }
+            .sidebar-brand { margin-bottom: 10px; }
+            
+            .nav-item { 
+                display: inline-block; 
+                padding: 10px 12px; 
+                font-size: 13px; 
+                border-left: none;
+                border-bottom: 2px solid transparent;
+            }
+            .nav-item:hover, .nav-item.active {
+                border-left: none;
+                border-bottom: 2px solid #ffb300;
+            }
+            .nav-item i { margin-right: 5px; width: auto; }
+
+            .main-content { 
+                margin-left: 0; 
+                width: 100%; 
+                padding: 15px; 
+            }
+            
+            .header h2 { font-size: 18px; }
+            
+            .row-cards { flex-direction: column; gap: 15px; }
+            .row-dashboard { flex-direction: column; gap: 15px; }
+            .col-chart, .col-team { flex: unset; width: 100%; box-sizing: border-box;}
+        }
+
+        @media (max-width: 480px) {
+            .nav-item { 
+                display: block; 
+                text-align: center;
+                border-bottom: 1px solid #5d4037;
+            }
+            .nav-item:hover, .nav-item.active {
+                border-bottom: 1px solid #ffb300;
+            }
+        }
     </style>
 </head>
 <body>
@@ -193,7 +249,10 @@ if (!empty($periodeAktif)) {
                 </form>
                 
                 <?php if(count($labels_chart) > 0) { ?>
-                    <canvas id="rankingChart" height="120"></canvas>
+                    <!-- Container tambahan agar chart tidak meluber di HP -->
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="rankingChart"></canvas>
+                    </div>
                 <?php } else { ?>
                     <p style="text-align: center; color: #858796; padding: 40px 0;">Data belum lengkap atau perhitungan belum tersedia untuk periode ini.</p>
                 <?php } ?>
@@ -234,7 +293,7 @@ if (!empty($periodeAktif)) {
         <?php if(count($labels_chart) > 0) { ?>
         const ctx = document.getElementById('rankingChart').getContext('2d');
         const rankingChart = new Chart(ctx, {
-            type: 'bar', // Bisa diganti 'line' atau 'pie'
+            type: 'bar',
             data: {
                 labels: <?= json_encode($labels_chart) ?>,
                 datasets: [{
@@ -251,10 +310,12 @@ if (!empty($periodeAktif)) {
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false, /* Penting agar chart bisa mengecil di HP */
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 1 // Nilai maksimal normalisasi SAW adalah 1
+                        max: 1 // Nilai maksimal normalisasi SAW
                     }
                 },
                 plugins: {
