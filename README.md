@@ -89,4 +89,4 @@ Untuk menjalankan aplikasi ini di lingkungan lokal (*localhost*), Anda memerluka
 ```
 
 ---
-*Dibuat dengan ☕ dan dedikasi oleh Kelompok 2.*
+*Kelompok 2 - Praktikum Proyek Akhir Sistem Pendukung Keputusan*
