@@ -29,7 +29,7 @@ Proyek ini disusun untuk memenuhi tugas **Project Akhir Praktikum Sistem Penduku
 | Nama Lengkap | NIM |
 | :--- | :--- |
 | **Zyrus Alfredo Randan Malinggato** | `2409116120` |
-| **Jemis Movid** | ` 2409116070` |
+| **Jemis Movid** | `2409116070` |
 | **Maria Claudia Meo** | `2409116108` |
 | **Fathinatuz Zaina** | `2409116016` |
 | **Dimas Aji Mukti** | `2409116107` |
