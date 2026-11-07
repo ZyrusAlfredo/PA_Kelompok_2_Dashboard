@@ -7,6 +7,8 @@
 
 Aplikasi berbasis web untuk menyelesaikan masalah pengambilan keputusan **Multi-Attribute Decision Making (MADM)** menggunakan algoritma **Simple Additive Weighting (SAW)**. 
 
+Link Website: kelompok2spk.gt.tc
+
 Berawal dari studi kasus pemilihan supplier biji kopi terbaik untuk "Kedai Kopi Senja", aplikasi ini telah dikembangkan menjadi sistem **Full CRUD yang dinamis**. Sistem ini mampu menangani berbagai studi kasus (multi-periode) dengan kriteria, bobot, tipe atribut (Benefit/Cost), dan jumlah alternatif yang tidak terbatas.
 
 ---
