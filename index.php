@@ -1,24 +1,18 @@
 <?php
-// index.php
-// Pastikan tidak ada spasi kosong di atas baris ini!
 include 'koneksi.php';
 
-// Mengambil jumlah data untuk statistik
 $totalPeriode = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM periode"))['total'];
 $totalKriteria = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM kriteria"))['total'];
 $totalAlternatif = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM alternatif"))['total'];
 
-// Ambil periode untuk dropdown filter grafik
 $queryPeriode = mysqli_query($conn, "SELECT * FROM periode ORDER BY id_periode DESC");
 $periodeAktif = isset($_GET['id_periode']) ? $_GET['id_periode'] : '';
 
-// Jika tidak ada parameter, set periode terbaru sebagai default
 if (empty($periodeAktif) && mysqli_num_rows($queryPeriode) > 0) {
     $firstPeriode = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id_periode FROM periode ORDER BY id_periode DESC LIMIT 1"));
     $periodeAktif = $firstPeriode['id_periode'];
 }
 
-// LOGIKA SAW (HANYA UNTUK GRAFIK DASHBOARD)
 $labels_chart = [];
 $scores_chart = [];
 
