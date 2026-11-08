@@ -1,4 +1,4 @@
-# ☕ Sistem Pendukung Keputusan (SPK) - Metode SAW (Kelompok 2)
+# PA_Kelompok_2_Dashboard
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
